@@ -6,7 +6,7 @@
 /*   By: acinca-f <acinca-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 10:38:22 by acinca-f          #+#    #+#             */
-/*   Updated: 2023/05/01 11:21:21 by acinca-f         ###   ########.fr       */
+/*   Updated: 2023/05/01 11:42:13 by acinca-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	load_table(t_table *table, int ac, char **av)
 		return (1);
 	table->initial_time = real_time();
 	table->total_ate = 0;
-	table->kill = 0;
+	table->stop = 0;
 	table->num_philo = ft_atoi(av[1]);
 	table->time_die = ft_atoi(av[2]);
 	table->time_eat = ft_atoi(av[3]);

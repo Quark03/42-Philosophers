@@ -4,7 +4,11 @@ CC = cc
 FLAGS = -g -Wall -Wextra -Werror -O3 # -fsanitize=thread
 INCLUDE = -lpthread
 
-SRCS = init.c main.c utils.c
+SRCS = init.c \
+	   main.c \
+	   philo.c \
+	   utils.c \
+	   utils2.c
 
 OBJS = $(SRCS:.c=.o)
 

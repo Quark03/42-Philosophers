@@ -6,7 +6,7 @@
 /*   By: acinca-f <acinca-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 10:27:28 by acinca-f          #+#    #+#             */
-/*   Updated: 2023/05/01 10:43:40 by acinca-f         ###   ########.fr       */
+/*   Updated: 2023/05/01 11:30:12 by acinca-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,4 @@ void	smart_sleep(t_time ms, t_table *table)
 	start = app_time(table);
 	while (app_time(table) < start + ms)
 		continue ;
-}
-
-int	free_util(void *p1, void *p2, void *p3, void *p4)
-{
-	if (p1)
-		free(p1);
-	if (p2)
-		free(p2);
-	if (p3)
-		free(p3);
-	if (p4)
-		free(p4);
-	return (1);
 }
