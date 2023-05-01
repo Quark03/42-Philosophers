@@ -6,7 +6,7 @@
 /*   By: acinca-f <acinca-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 10:26:25 by acinca-f          #+#    #+#             */
-/*   Updated: 2023/05/01 11:41:19 by acinca-f         ###   ########.fr       */
+/*   Updated: 2023/05/01 12:00:19 by acinca-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ typedef struct s_philo
 // Init
 int		check_args(int ac, char **av);
 int		load_table(t_table *table, int ac, char **av);
+
+// Philo
+int		start_threads(t_table *table, t_philo *philo, pthread_t *th);
+
 // Utils
 int		ft_atoi(const char *str);
 t_time	real_time(void);

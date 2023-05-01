@@ -6,7 +6,7 @@
 /*   By: acinca-f <acinca-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 10:26:16 by acinca-f          #+#    #+#             */
-/*   Updated: 2023/05/01 11:48:07 by acinca-f         ###   ########.fr       */
+/*   Updated: 2023/05/01 12:00:58 by acinca-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ int	init_table(t_table **table, int ac, char **av)
 	if (!*table)
 		return (1);
 	if (load_table(*table, ac, av))
+	{
+		printf("Error loading table\n");
 		return (1);
+	}
 	return (0);
 }
 
@@ -58,11 +61,17 @@ int	init_mutexes(pthread_mutex_t *forks, pthread_mutex_t *print,
 	while (i < table->num_philo)
 	{
 		if (pthread_mutex_init(&forks[i], NULL))
+		{
+			printf("Error initializing fork %d\n", i);
 			return (1);
+		}
 		i++;
 	}
 	if (pthread_mutex_init(print, NULL))
+	{
+		printf("Error initializing print mutex\n");
 		return (1);
+	}
 	return (0);
 }
 
@@ -89,6 +98,9 @@ int	main(int ac, char **av)
 		return (free_err(philos, table, forks, print));
 	th = malloc(sizeof(pthread_t) * table->num_philo);
 	if (!th)
+		return (free_err(table, philos, forks, print)
+			+ free_err(th, NULL, NULL, NULL));
+	if (start_threads(table, philos, th))
 		return (free_err(table, philos, forks, print)
 			+ free_err(th, NULL, NULL, NULL));
 	return (free_ok(table, forks, print, philos)
