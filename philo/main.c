@@ -6,7 +6,7 @@
 /*   By: acinca-f <acinca-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 10:26:16 by acinca-f          #+#    #+#             */
-/*   Updated: 2023/05/01 14:57:14 by acinca-f         ###   ########.fr       */
+/*   Updated: 2023/05/01 15:11:50 by acinca-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	load_philos(t_philo *philos, t_table *table,
 	while (i < table->num_philo)
 	{
 		philos[i].ate = 0;
-		philos[i].id = i;
+		philos[i].id = i + 1;
 		philos[i].table = table;
 		philos[i].forks = forks;
 		philos[i].print = print;
