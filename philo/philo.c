@@ -6,7 +6,7 @@
 /*   By: acinca-f <acinca-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:25:05 by acinca-f          #+#    #+#             */
-/*   Updated: 2023/05/01 15:19:50 by acinca-f         ###   ########.fr       */
+/*   Updated: 2023/05/01 16:04:19 by acinca-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,17 @@ void	print_action(t_philo *philo, t_time time, char *text)
 	pthread_mutex_unlock(philo->print);
 }
 
-void	eat(t_philo *p)
+int	eat(t_philo *p)
 {
+	if (p->table->stop != 0)
+		return (1);
+	print_action(p, app_time(p->table), "is eating");
 	p->ate++;
 	p->last_meal = app_time(p->table);
 	if (p->ate == p->table->must_eat)
 		p->table->total_ate++;
 	smart_sleep(p->table->time_eat, p->table);
-	p->last_meal = app_time(p->table);
+	return (0);
 }
 
 void	*philo_routine(void *arg)
@@ -53,13 +56,14 @@ void	*philo_routine(void *arg)
 		if (p->table->stop != 0)
 			return (NULL);
 		print_action(p, app_time(p->table), "has taken a fork");
-		print_action(p, app_time(p->table), "is eating");
-		eat(p);
+		if (eat(p))
+			return (NULL);
 		pthread_mutex_unlock(&p->forks[p->id - 1]);
 		pthread_mutex_unlock(&p->forks[p->id % p->table->num_philo]);
 		print_action(p, app_time(p->table), "is sleeping");
 		smart_sleep(p->table->time_sleep, p->table);
 		print_action(p, app_time(p->table), "is thinking");
+		smart_sleep(5, p->table);
 	}
 	return (NULL);
 }
@@ -75,13 +79,11 @@ void	check_finish(t_table *table, t_philo *philo)
 		{
 			if (table->total_ate == table->num_philo)
 			{
-				pthread_mutex_lock(philo[i].print);
-				printf("Simulation Finished - All philosophers ate %d times\n",
-					table->must_eat);
+				printf("Simulation Done!\n");
 				table->stop = 1;
-				pthread_mutex_unlock(philo[i].print);
 				return ;
-			} else if (app_time(table) - philo[i].last_meal > table->time_die)
+			}
+			else if (app_time(table) - philo[i].last_meal > table->time_die)
 			{
 				pthread_mutex_lock(philo[i].print);
 				printf("%lu\t%d died\n", app_time(table), philo[i].id);
@@ -91,7 +93,6 @@ void	check_finish(t_table *table, t_philo *philo)
 			}
 			i++;
 		}
-		smart_sleep(5, table);
 	}
 }
 

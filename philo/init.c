@@ -6,7 +6,7 @@
 /*   By: acinca-f <acinca-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 10:38:22 by acinca-f          #+#    #+#             */
-/*   Updated: 2023/05/01 11:42:13 by acinca-f         ###   ########.fr       */
+/*   Updated: 2023/05/01 15:44:39 by acinca-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_args(int ac, char **av)
 
 	i = 1;
 	j = 0;
-	if (ac < 4)
+	if (ac < 5 || ac > 6)
 		return (1);
 	while (i < ac && av[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: acinca-f <acinca-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 10:26:25 by acinca-f          #+#    #+#             */
-/*   Updated: 2023/05/01 12:00:19 by acinca-f         ###   ########.fr       */
+/*   Updated: 2023/05/01 15:33:14 by acinca-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ typedef struct s_philo
 	pthread_mutex_t	*print;
 	t_time			last_meal;
 }	t_philo;
+
+// Check
+int		check_total_ate(t_table *table, t_philo *philo);
+int		check_death(t_table *table, t_philo *philo);
 
 // Init
 int		check_args(int ac, char **av);

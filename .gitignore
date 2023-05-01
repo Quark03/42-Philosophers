@@ -1,3 +1,5 @@
 *.o
 valgrind.txt
 .nfs*
+
+*.txt

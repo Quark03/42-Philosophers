@@ -6,7 +6,7 @@
 /*   By: acinca-f <acinca-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 10:26:16 by acinca-f          #+#    #+#             */
-/*   Updated: 2023/05/01 15:11:50 by acinca-f         ###   ########.fr       */
+/*   Updated: 2023/05/01 15:28:06 by acinca-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,13 @@ int	main(int ac, char **av)
 
 	if (init_table(&table, ac, av))
 		return (free_err(table, NULL, NULL, NULL));
+	print = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
 			* table->num_philo);
-	if (!forks)
+	if (!forks || !print)
 		return (free_err(table, forks, NULL, NULL));
-	print = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	if (!print)
-		return (free_err(table, forks, print, NULL));
-	if (init_philos(&philos, table, forks, print))
-		return (free_err(philos, table, forks, print));
-	if (init_mutexes(forks, print, table))
+	if (init_philos(&philos, table, forks, print)
+		|| init_mutexes(forks, print, table))
 		return (free_err(philos, table, forks, print));
 	th = malloc(sizeof(pthread_t) * table->num_philo);
 	if (!th)
