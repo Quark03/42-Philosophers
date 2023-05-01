@@ -6,7 +6,7 @@
 /*   By: acinca-f <acinca-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:25:05 by acinca-f          #+#    #+#             */
-/*   Updated: 2023/05/01 13:51:32 by acinca-f         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:53:56 by acinca-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@ void	*philo_routine(void *arg)
 	{
 		if (p->id % 2 == 0)
 			smart_sleep(10, p->table);
-		pthread_mutex_lock(&p->forks[p->id - 1]);
+		pthread_mutex_lock(&p->forks[p->id]);
 		print_action(p, app_time(p->table), "has taken a fork");
-		pthread_mutex_lock(&p->forks[p->id % p->table->num_philo]);
+		if (p->table->num_philo == 1)
+			return (NULL);
+		pthread_mutex_lock(&p->forks[(p->id + 1) % p->table->num_philo]);
 		print_action(p, app_time(p->table), "has taken a fork");
 		print_action(p, app_time(p->table), "is eating");
 		p->ate++;
@@ -45,12 +47,11 @@ void	*philo_routine(void *arg)
 		if (p->ate == p->table->must_eat)
 			p->table->total_ate++;
 		smart_sleep(p->table->time_eat, p->table);
-		pthread_mutex_unlock(&p->forks[p->id - 1]);
-		pthread_mutex_unlock(&p->forks[p->id % p->table->num_philo]);
+		pthread_mutex_unlock(&p->forks[p->id]);
+		pthread_mutex_unlock(&p->forks[(p->id + 1) % p->table->num_philo]);
 		print_action(p, app_time(p->table), "is sleeping");
 		smart_sleep(p->table->time_sleep, p->table);
 		print_action(p, app_time(p->table), "is thinking");
-		smart_sleep(1, p->table);
 	}
 	return (NULL);
 }
@@ -103,7 +104,6 @@ int	start_threads(t_table *table, t_philo *philo, pthread_t *th)
 	}
 	check_finish(table, philo);
 	i = 0;
-	printf("Joining threads ....\n");
 	while (i < table->num_philo)
 	{
 		if (pthread_join(th[i], NULL))
